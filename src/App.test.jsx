@@ -1,10 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import { describe, it, expect } from 'vitest';
+
+jest.mock('@ckeditor/ckeditor5-react', () => ({
+    CKEditor: () => <div>Mock CKEditor</div>
+}));
+jest.mock('ckeditor5', () => ({
+    ClassicEditor: {},
+    Bold: {},
+    Essentials: {},
+    Italic: {},
+    Paragraph: {},
+    Undo: {}
+}), { virtual: true });
 
 describe('App', () => {
-    it('renders the Vite + React headline', () => {
+    it('renders the CKEditor 5 headline', () => {
         render(<App />);
-        expect(screen.getByText(/Vite \+ React/i)).toBeInTheDocument();
+        expect(screen.getByText(/React CKEditor 5 Integration/i)).toBeInTheDocument();
     });
 });

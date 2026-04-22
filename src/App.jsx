@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import { ClassicEditor, Bold, Essentials, Italic, Paragraph, Undo } from 'ckeditor5'
+
+import 'ckeditor5/ckeditor5.css'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [content, setContent] = useState('<p>Hello from CKEditor 5!</p>')
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <h2>React CKEditor 5 Integration</h2>
+      <CKEditor
+        editor={ClassicEditor}
+        config={{
+          plugins: [Essentials, Bold, Italic, Paragraph, Undo],
+          toolbar: ['undo', 'redo', '|', 'bold', 'italic']
+        }}
+        data={content}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          setContent(data);
+        }}
+      />
+
+      <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '10px' }}>
+        <h3>Editor Output:</h3>
+        <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
